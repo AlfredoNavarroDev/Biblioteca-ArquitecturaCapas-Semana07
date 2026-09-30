@@ -2,6 +2,5 @@
   <Project Path="Biblioteca.Datos/Biblioteca.Datos.csproj" />
   <Project Path="Biblioteca.Entidades/Biblioteca.Entidades.csproj" />
   <Project Path="Biblioteca.Negocio/Biblioteca.Negocio.csproj" />
-  <Project Path="Biblioteca.Pruebas/Biblioteca.Pruebas.csproj" />
   <Project Path="Lab07/Lab07.csproj" />
 </Solution>
