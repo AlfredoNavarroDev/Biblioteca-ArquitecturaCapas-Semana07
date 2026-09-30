@@ -1,0 +1,44 @@
+<UserControl x:Class="Lab07.Views.BooksView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+        <Grid Grid.Column="0"><Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="0,0,0,17"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <StackPanel><TextBlock Text="Catálogo" Style="{StaticResource PageTitle}" /><TextBlock Text="Busca, edita y conserva el historial de cada libro." Style="{StaticResource Caption}" Margin="0,4,0,0" /></StackPanel>
+                <Button Grid.Column="1" Content="+  Nuevo libro" Style="{StaticResource PrimaryButton}" Command="{Binding NewCommand}" VerticalAlignment="Center" />
+            </Grid>
+            <Border Grid.Row="1" Style="{StaticResource Surface}" Padding="15" Margin="0,0,0,16"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="180" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" ToolTip="Buscar por título o autor" Margin="0,0,12,0" />
+                <ComboBox Grid.Column="1" ItemsSource="{Binding Filters}" SelectedItem="{Binding Filter}" Margin="0,0,12,0" />
+                <Button Grid.Column="2" Content="Actualizar" Command="{Binding RefreshCommand}" />
+            </Grid></Border>
+            <Border Grid.Row="2" Style="{StaticResource Surface}" Padding="1"><DataGrid ItemsSource="{Binding Books}" MinHeight="300">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="TÍTULO" Binding="{Binding Titulo}" Width="2*" />
+                    <DataGridTextColumn Header="AUTOR" Binding="{Binding AutorNombre}" Width="*" />
+                    <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="125" />
+                    <DataGridTextColumn Header="DISPONIBLES" Binding="{Binding Ejemplares}" Width="110" />
+                    <DataGridTemplateColumn Header="ESTADO" Width="90"><DataGridTemplateColumn.CellTemplate><DataTemplate><TextBlock VerticalAlignment="Center"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Text" Value="Activo" /><Style.Triggers><DataTrigger Binding="{Binding Activo}" Value="False"><Setter Property="Text" Value="Inactivo" /></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="" Width="90"><DataGridTemplateColumn.CellTemplate><DataTemplate><Button Content="Abrir" Padding="9,5" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" /></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid></Border>
+            <StackPanel Grid.Row="3" Margin="0,13,0,0"><TextBlock Text="No hay libros para este filtro o búsqueda." Visibility="{Binding Books.Count, Converter={StaticResource EmptyCountVisibility}}" Style="{StaticResource Caption}" /><TextBlock Text="{Binding Error}" Style="{StaticResource StatusError}" /><TextBlock Text="{Binding Notice}" Foreground="{StaticResource Forest}" /><TextBlock Text="Cargando…" Visibility="{Binding IsLoading, Converter={StaticResource BoolVisibility}}" Style="{StaticResource Caption}" /></StackPanel>
+        </Grid>
+        <Border Grid.Column="1" Width="340" Margin="18,0,0,0" Style="{StaticResource Surface}" Padding="21" Visibility="{Binding PanelOpen, Converter={StaticResource BoolVisibility}}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+                <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions><TextBlock Text="{Binding PanelTitle}" Style="{StaticResource SectionTitle}" /><Button Grid.Column="1" Content="×" Padding="8,3" Command="{Binding CloseCommand}" ToolTip="Cerrar panel" /></Grid>
+                <TextBlock Text="Los datos introducidos se conservan si Negocio rechaza el guardado." Style="{StaticResource Caption}" TextWrapping="Wrap" Margin="0,8,0,24" />
+                <TextBlock Text="Título" Margin="0,0,0,5" /><TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" /><TextBlock Text="{Binding TitleError}" Style="{StaticResource StatusError}" />
+                <TextBlock Text="ISBN" Margin="0,17,0,5" /><TextBox Text="{Binding Isbn, UpdateSourceTrigger=PropertyChanged}" /><TextBlock Text="{Binding IsbnError}" Style="{StaticResource StatusError}" />
+                <TextBlock Text="Autor" Margin="0,17,0,5" /><ComboBox ItemsSource="{Binding Authors}" SelectedItem="{Binding Author}" DisplayMemberPath="Name" /><TextBlock Text="{Binding AuthorError}" Style="{StaticResource StatusError}" />
+                <TextBlock Text="Solo aparecen autores presentes en los libros cargados; falta una lista pública de autores activos." Style="{StaticResource Caption}" TextWrapping="Wrap" Margin="0,5,0,0" />
+                <TextBlock Text="Ejemplares disponibles" Margin="0,17,0,5" /><TextBox Text="{Binding Copies, UpdateSourceTrigger=PropertyChanged}" /><TextBlock Text="{Binding CopiesError}" Style="{StaticResource StatusError}" />
+                <TextBlock Text="{Binding Error}" Style="{StaticResource StatusError}" Margin="0,13,0,0" />
+                <Button Content="Guardar libro" Style="{StaticResource PrimaryButton}" Command="{Binding SaveCommand}" Margin="0,20,0,0" />
+                <Button Content="Descartar cambios" Command="{Binding DiscardCommand}" Margin="0,8,0,0" />
+                <Separator Margin="0,24,0,18" />
+                <TextBlock Text="La baja conserva el registro para el historial." Style="{StaticResource Caption}" TextWrapping="Wrap" />
+                <Button Content="Dar de baja" Style="{StaticResource DangerButton}" Command="{Binding AskDeactivateCommand}" IsEnabled="{Binding CanDeactivate}" Margin="0,10,0,0" />
+                <StackPanel Visibility="{Binding Confirming, Converter={StaticResource BoolVisibility}}" Margin="0,12,0,0"><TextBlock Text="¿Confirmas la baja lógica de este libro?" TextWrapping="Wrap" /><Button Content="Sí, dar de baja" Command="{Binding DeactivateCommand}" Style="{StaticResource DangerButton}" Margin="0,8,0,0" /><Button Content="Cancelar" Command="{Binding CancelDeactivateCommand}" Margin="0,7,0,0" /></StackPanel>
+            </StackPanel></ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

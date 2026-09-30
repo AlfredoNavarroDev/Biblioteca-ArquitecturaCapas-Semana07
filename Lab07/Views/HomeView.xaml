@@ -1,0 +1,45 @@
+<UserControl x:Class="Lab07.Views.HomeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Border Style="{StaticResource Surface}" Background="{StaticResource Sage}" BorderThickness="0" Padding="29" Margin="0,0,0,22">
+                <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="220" /></Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="UNA BIBLIOTECA EN MOVIMIENTO" Foreground="{StaticResource Forest}" FontSize="11" FontWeight="Bold" />
+                        <TextBlock Text="Cada libro encuentra su camino." FontFamily="Georgia" FontSize="27" Foreground="{StaticResource Forest}" Margin="0,12,0,7" TextWrapping="Wrap" />
+                        <TextBlock Text="Consulta lo que vuelve pronto y continúa donde lo dejaste." Foreground="{StaticResource Muted}" FontSize="13" TextWrapping="Wrap" />
+                        <StackPanel Orientation="Horizontal" Margin="0,22,0,0">
+                            <Button Content="Nuevo préstamo  ↗" Style="{StaticResource PrimaryButton}" Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="Préstamos" Margin="0,0,9,0" />
+                            <Button Content="Registrar devolución" Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="Devoluciones" />
+                        </StackPanel>
+                    </StackPanel>
+                    <Viewbox Grid.Column="1" Width="190" Height="150" HorizontalAlignment="Right">
+                        <Canvas Width="190" Height="150">
+                            <Ellipse Width="160" Height="18" Canvas.Left="15" Canvas.Top="126" Fill="#CAD8CB" />
+                            <Rectangle Width="44" Height="95" Canvas.Left="34" Canvas.Top="31" Fill="{StaticResource Forest}" RadiusX="4" RadiusY="4" />
+                            <Rectangle Width="8" Height="72" Canvas.Left="47" Canvas.Top="43" Fill="{StaticResource Ochre}" />
+                            <Rectangle Width="38" Height="78" Canvas.Left="80" Canvas.Top="48" Fill="{StaticResource Terracotta}" RadiusX="3" RadiusY="3" />
+                            <Rectangle Width="32" Height="105" Canvas.Left="120" Canvas.Top="21" Fill="#638174" RadiusX="3" RadiusY="3" />
+                            <Rectangle Width="23" Height="5" Canvas.Left="125" Canvas.Top="35" Fill="#E6E3D5" />
+                            <Path Data="M 139,16 C 139,-3 170,-3 170,16 L 160,42 L 145,42 Z" Fill="{StaticResource Ochre}" />
+                            <Rectangle Width="4" Height="64" Canvas.Left="154" Canvas.Top="42" Fill="{StaticResource Forest}" />
+                        </Canvas>
+                    </Viewbox>
+                </Grid>
+            </Border>
+            <Grid Margin="0,0,0,22"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Style="{StaticResource Surface}" Padding="21" Margin="0,0,10,0"><StackPanel><TextBlock Text="Ejemplares disponibles" Foreground="{StaticResource Muted}" /><TextBlock Text="{Binding Available}" FontSize="30" FontWeight="SemiBold" Margin="0,13,0,0" /></StackPanel></Border>
+                <Border Grid.Column="1" Style="{StaticResource Surface}" Padding="21" Margin="5,0,5,0"><StackPanel><TextBlock Text="Pendientes de devolución" Foreground="{StaticResource Muted}" /><TextBlock Text="{Binding Pending}" FontSize="30" FontWeight="SemiBold" Margin="0,13,0,0" /></StackPanel></Border>
+                <Border Grid.Column="2" Style="{StaticResource Surface}" Padding="21" Margin="10,0,0,0"><StackPanel><TextBlock Text="Plazo vencido" Foreground="{StaticResource Muted}" /><TextBlock Text="{Binding Overdue}" FontSize="30" FontWeight="SemiBold" Foreground="{StaticResource Terracotta}" Margin="0,13,0,0" /></StackPanel></Border>
+            </Grid>
+            <Border Style="{StaticResource Surface}" Padding="22">
+                <DockPanel><Grid DockPanel.Dock="Top" Margin="0,0,0,16"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions><TextBlock Text="Próximas devoluciones" Style="{StaticResource SectionTitle}" /><Button Grid.Column="1" Content="Actualizar" Command="{Binding RefreshCommand}" /></Grid>
+                    <DataGrid ItemsSource="{Binding Upcoming}" MinHeight="230">
+                        <DataGrid.Columns><DataGridTextColumn Header="SOCIO" Binding="{Binding Member}" Width="*" /><DataGridTextColumn Header="LIBRO" Binding="{Binding Book}" Width="2*" /><DataGridTextColumn Header="FECHA LÍMITE" Binding="{Binding DueText}" Width="135" /><DataGridTextColumn Header="CONDICIÓN" Binding="{Binding Condition}" Width="110" /></DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </Border>
+            <TextBlock Text="{Binding Error}" Style="{StaticResource StatusError}" Margin="0,14,0,0" />
+            <TextBlock Text="Cargando…" Visibility="{Binding IsLoading, Converter={StaticResource BoolVisibility}}" Style="{StaticResource Caption}" Margin="0,7,0,0" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

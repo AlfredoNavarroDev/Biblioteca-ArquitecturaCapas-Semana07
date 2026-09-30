@@ -1,0 +1,38 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="Ivory" Color="#F5F2EB" />
+    <SolidColorBrush x:Key="Paper" Color="#FFFEFA" />
+    <SolidColorBrush x:Key="Forest" Color="#183E35" />
+    <SolidColorBrush x:Key="Sage" Color="#E3ECE4" />
+    <SolidColorBrush x:Key="Terracotta" Color="#B85C43" />
+    <SolidColorBrush x:Key="Ochre" Color="#D8B768" />
+    <SolidColorBrush x:Key="Ink" Color="#242A27" />
+    <SolidColorBrush x:Key="Muted" Color="#626C65" />
+    <SolidColorBrush x:Key="Line" Color="#E1E5DE" />
+    <Style TargetType="TextBlock"><Setter Property="FontFamily" Value="Segoe UI Variable, Segoe UI" /><Setter Property="Foreground" Value="{StaticResource Ink}" /></Style>
+    <Style x:Key="PageTitle" TargetType="TextBlock"><Setter Property="FontSize" Value="25" /><Setter Property="FontWeight" Value="SemiBold" /></Style>
+    <Style x:Key="SectionTitle" TargetType="TextBlock"><Setter Property="FontSize" Value="18" /><Setter Property="FontWeight" Value="SemiBold" /></Style>
+    <Style x:Key="Caption" TargetType="TextBlock"><Setter Property="FontSize" Value="12" /><Setter Property="Foreground" Value="{StaticResource Muted}" /></Style>
+    <Style TargetType="Button">
+        <Setter Property="FontFamily" Value="Segoe UI Variable, Segoe UI" /><Setter Property="FontSize" Value="13" /><Setter Property="Padding" Value="15,9" /><Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Background" Value="{StaticResource Paper}" /><Setter Property="Foreground" Value="{StaticResource Forest}" /><Setter Property="BorderBrush" Value="{StaticResource Line}" /><Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+            <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9" Padding="{TemplateBinding Padding}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Border" Property="Opacity" Value="0.86" /></Trigger>
+                <Trigger Property="IsPressed" Value="True"><Setter TargetName="Border" Property="Opacity" Value="0.7" /></Trigger>
+                <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Border" Property="Opacity" Value="0.45" /><Setter Property="Cursor" Value="Arrow" /></Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Terracotta}" /><Setter TargetName="Border" Property="BorderThickness" Value="2" /></Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate></Setter.Value></Setter>
+    </Style>
+    <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}"><Setter Property="Background" Value="{StaticResource Forest}" /><Setter Property="Foreground" Value="White" /><Setter Property="BorderBrush" Value="{StaticResource Forest}" /></Style>
+    <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}"><Setter Property="Foreground" Value="{StaticResource Terracotta}" /></Style>
+    <Style TargetType="TextBox"><Setter Property="FontFamily" Value="Segoe UI Variable, Segoe UI" /><Setter Property="FontSize" Value="13" /><Setter Property="Foreground" Value="{StaticResource Ink}" /><Setter Property="Background" Value="{StaticResource Paper}" /><Setter Property="BorderBrush" Value="{StaticResource Line}" /><Setter Property="BorderThickness" Value="1" /><Setter Property="Padding" Value="11,9" /><Setter Property="MinHeight" Value="37" /><Style.Triggers><Trigger Property="IsKeyboardFocused" Value="True"><Setter Property="BorderBrush" Value="{StaticResource Forest}" /><Setter Property="BorderThickness" Value="2" /></Trigger></Style.Triggers></Style>
+    <Style TargetType="ComboBox"><Setter Property="FontFamily" Value="Segoe UI Variable, Segoe UI" /><Setter Property="FontSize" Value="13" /><Setter Property="MinHeight" Value="37" /><Setter Property="Padding" Value="7" /><Setter Property="Background" Value="{StaticResource Paper}" /><Setter Property="BorderBrush" Value="{StaticResource Line}" /></Style>
+    <Style TargetType="DatePicker"><Setter Property="FontFamily" Value="Segoe UI Variable, Segoe UI" /><Setter Property="MinHeight" Value="37" /></Style>
+    <Style TargetType="DataGrid"><Setter Property="AutoGenerateColumns" Value="False" /><Setter Property="HeadersVisibility" Value="Column" /><Setter Property="CanUserAddRows" Value="False" /><Setter Property="CanUserDeleteRows" Value="False" /><Setter Property="IsReadOnly" Value="True" /><Setter Property="GridLinesVisibility" Value="Horizontal" /><Setter Property="HorizontalGridLinesBrush" Value="{StaticResource Line}" /><Setter Property="Background" Value="{StaticResource Paper}" /><Setter Property="BorderBrush" Value="{StaticResource Line}" /><Setter Property="RowHeight" Value="47" /><Setter Property="ColumnHeaderHeight" Value="42" /><Setter Property="FontFamily" Value="Segoe UI Variable, Segoe UI" /><Setter Property="FontSize" Value="13" /><Setter Property="RowBackground" Value="{StaticResource Paper}" /><Setter Property="AlternatingRowBackground" Value="#FAF9F5" /></Style>
+    <Style TargetType="DataGridRow"><Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{StaticResource Sage}" /><Setter Property="Foreground" Value="{StaticResource Ink}" /></Trigger></Style.Triggers></Style>
+    <Style x:Key="Surface" TargetType="Border"><Setter Property="Background" Value="{StaticResource Paper}" /><Setter Property="BorderBrush" Value="{StaticResource Line}" /><Setter Property="BorderThickness" Value="1" /><Setter Property="CornerRadius" Value="14" /></Style>
+    <Style x:Key="StatusError" TargetType="TextBlock"><Setter Property="Foreground" Value="#A8402E" /><Setter Property="TextWrapping" Value="Wrap" /><Setter Property="FontSize" Value="13" /></Style>
+    <Style x:Key="NavButton" TargetType="ToggleButton"><Setter Property="Background" Value="Transparent" /><Setter Property="Foreground" Value="#D9E7DC" /><Setter Property="BorderThickness" Value="0" /><Setter Property="FontFamily" Value="Segoe UI Variable, Segoe UI" /><Setter Property="FontSize" Value="14" /><Setter Property="Margin" Value="0,0,0,5" /><Setter Property="HorizontalContentAlignment" Value="Left" /><Setter Property="Padding" Value="15,12" /><Setter Property="Cursor" Value="Hand" /><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToggleButton"><Border x:Name="NavBorder" Background="{TemplateBinding Background}" CornerRadius="9" Padding="{TemplateBinding Padding}"><ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" /></Border><ControlTemplate.Triggers><Trigger Property="IsChecked" Value="True"><Setter TargetName="NavBorder" Property="Background" Value="#315E4D" /><Setter Property="Foreground" Value="White" /></Trigger><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="NavBorder" Property="Opacity" Value="0.8" /></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="NavBorder" Property="BorderBrush" Value="{StaticResource Ochre}" /><Setter TargetName="NavBorder" Property="BorderThickness" Value="2" /></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
+</ResourceDictionary>

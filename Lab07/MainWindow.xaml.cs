@@ -1,24 +1,34 @@
-﻿using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Media.Animation;
+using Lab07.Services;
+using Lab07.ViewModels;
 
-namespace Lab07
+namespace Lab07;
+
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public MainWindow() : this(new UnavailableService()) { }
+
+    public MainWindow(IBibliotecaService service)
     {
-        public MainWindow()
+        InitializeComponent();
+        var shell = new ShellViewModel(service);
+        DataContext = shell;
+        shell.PropertyChanged += (_, args) =>
         {
-            InitializeComponent();
-        }
+            if (args.PropertyName != nameof(ShellViewModel.Current)) return;
+            var animationsEnabled = typeof(SystemParameters).GetProperty("ClientAreaAnimation")?.GetValue(null) is true;
+            if (animationsEnabled)
+                PageHost.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(160)));
+            else
+                PageHost.Opacity = 1;
+        };
+    }
+
+    private void OnEscape(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Escape || DataContext is not ShellViewModel shell) return;
+        if (shell.ClosePanel()) e.Handled = true;
     }
 }
